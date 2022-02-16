@@ -27,7 +27,7 @@ Compilation is done by executing:
 $ cd RELIC_pairings
 $ mkdir relic-target
 $ cd relic-target
-$ ../relic/preset/x64-pbc-bls12-381.sh ../relic/
+$ ../relic/preset/x64-pbc-bls12-381.sh ../relic/        [Make sure the .sh file has permission as executable]
 $ make
 ```
 
