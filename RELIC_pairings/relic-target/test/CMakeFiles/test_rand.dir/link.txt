@@ -1,0 +1,1 @@
+/usr/bin/cc -m64 -Wall   -O3 -funroll-loops -fomit-frame-pointer -finline-small-functions -march=native -mtune=native -O3 -DNDEBUG -L/home/plonga/Documents/Faster_Fp_arithmetic/GitHub_faster_Fp_arithmetic/Pairings/relic/src/low/x64-asm-382/  -static -rdynamic CMakeFiles/test_rand.dir/test_rand.c.o -o ../bin/test_rand  ../lib/librelic_s.a -lgmp -lrt 
