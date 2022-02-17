@@ -1497,16 +1497,7 @@ fp2sqr434_c1_asm:
     mov    [reg_p2], r15 
     mov    rdx, r14                // rdx <- z0
     MULADD64x256 [rip+p434p1+24], r9, r10, r11, r12, r13, rbx, rcx
-    
-	// c1 = 2a0 x a1
-	//add    r15, r15
-	//adc    r8, r8 
-	//adc    r9, r9
-	//adc    r10, r10
-	//adc    r11, r11
-	//adc    r12, r12
-	//adc    r13, r13
-        
+            
     mov    [reg_p2+8], r8         
     mov    [reg_p2+16], r9         
     mov    [reg_p2+24], r10      
@@ -1520,102 +1511,6 @@ fp2sqr434_c1_asm:
     pop    r12
     ret
 
-/*
-.global fp2sqr434_c1_asm
-fp2sqr434_c1_asm:
-    
-    // [r8:r15] <- z = a00 x a1
-    mov    rdx, [reg_p1]
-    mulx   r9, r8, [reg_p1+56]    
-    xor    rax, rax     
-    push   r12
-    mulx   r10, r11, [reg_p1+64]  
-    push   r13   
-    adox   r9, r11        
-    mulx   r11, r12, [reg_p1+72] 
-    push   r14    
-    adox   r10, r12        
-    mulx   r12, r13, [reg_p1+80]  
-    push   r15   
-    adox   r11, r13       
-    mulx   r13, r14, [reg_p1+88]  
-    push   rbx  
-    adox   r12, r14      
-    mulx   r14, r15, [reg_p1+96]   
-    adox   r13, r15      
-    mulx   r15, rbx, [reg_p1+104]  
-    adox   r14, rbx 
-    adox   r15, rax 
-           
-    // [r9:r15] <- z = (z0 x p434p1 + z)/2^64
-    mov    rdx, r8                 // rdx <- z0
-    MULADD64x256 [rip+p434p1+24], r11, r12, r13, r14, r15, rbx, rcx
-    
-    // [r9:r15, r8] <- z = a01 x a1 + z 
-    mov    rdx, [reg_p1+8]
-    MULADD64x448 [reg_p1+56], r9, r10, r11, r12, r13, r14, r15, r8, rbx, rcx, r8
-    // [r10:r15, r8] <- z = (z0 x p434p1 + z)/2^64
-    mov    rdx, r9                 // rdx <- z0
-    MULADD64x256 [rip+p434p1+24], r12, r13, r14, r15, r8, rbx, rcx
-    
-    // [r10:r15, r8:r9] <- z = a02 x a1 + z  
-    mov    rdx, [reg_p1+16]
-    MULADD64x448 [reg_p1+56], r10, r11, r12, r13, r14, r15, r8, r9, rbx, rcx, r9
-    // [r11:r15, r8:r9] <- z = (z0 x p434p1 + z)/2^64
-    mov    rdx, r10                // rdx <- z0
-    MULADD64x256 [rip+p434p1+24], r13, r14, r15, r8, r9, rbx, rcx
-    
-    // [r11:r15, r8:r10] <- z = a03 x a1 + z
-    mov    rdx, [reg_p1+24]
-    MULADD64x448 [reg_p1+56], r11, r12, r13, r14, r15, r8, r9, r10, rbx, rcx, r10
-    // [r12:r15, r8:r10] <- z = (z0 x p434p1 + z)/2^64
-    mov    rdx, r11                // rdx <- z0
-    MULADD64x256 [rip+p434p1+24], r14, r15, r8, r9, r10, rbx, rcx
-    
-    // [r12:r15, r8:r11] <- z = a04 x a1 + z 
-    mov    rdx, [reg_p1+32]
-    MULADD64x448 [reg_p1+56], r12, r13, r14, r15, r8, r9, r10, r11, rbx, rcx, r11
-    // [r13:r15, r8:r11] <- z = (z0 x p434p1 + z)/2^64
-    mov    rdx, r12                // rdx <- z0
-    MULADD64x256 [rip+p434p1+24], r15, r8, r9, r10, r11, rbx, rcx
-    
-    // [r13:r15, r8:r12] <- z = a05 x a1 + z    
-    mov    rdx, [reg_p1+40]
-    MULADD64x448 [reg_p1+56], r13, r14, r15, r8, r9, r10, r11, r12, rbx, rcx, r12
-    // [r14:r15, r8:r12] <- z = (z0 x p434p1 + z)/2^64
-    mov    rdx, r13                // rdx <- z0
-    MULADD64x256 [rip+p434p1+24], r8, r9, r10, r11, r12, rbx, rcx
-    
-    // [r14:r15, r8:r13] <- z = a06 x a1 + z  
-    mov    rdx, [reg_p1+48]
-    MULADD64x448 [reg_p1+56], r14, r15, r8, r9, r10, r11, r12, r13, rbx, rcx, r13
-    // [r15, r8:r13] <- z = (z0 x p434p1 + z)/2^64
-    mov    rdx, r14                // rdx <- z0
-    MULADD64x256 [rip+p434p1+24], r9, r10, r11, r12, r13, rbx, rcx
-    
-	// c1 = 2a0 x a1
-	add    r15, r15
-	adc    r8, r8
-    mov    [reg_p2], r15  
-	adc    r9, r9
-	adc    r10, r10
-    pop    rbx
-	adc    r11, r11
-	adc    r12, r12
-    pop    r15
-	adc    r13, r13
-        
-    mov    [reg_p2+8], r8         
-    mov    [reg_p2+16], r9         
-    mov    [reg_p2+24], r10      
-    mov    [reg_p2+32], r11      
-    mov    [reg_p2+40], r12      
-    mov    [reg_p2+48], r13
-    pop    r14
-    pop    r13
-    pop    r12
-    ret
-*/
 
 //***********************************************************************
 //  Squaring in GF(p^2), non-complex part
