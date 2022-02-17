@@ -109,23 +109,7 @@ void fp2_sqrn_low(dv2_t c, fp2_t a) {
 	/* c = c0 + c1 * u. */
 }
 
-void fp2_sqrm_low(fp2_t c, fp2_t a) {
-    /*
-	rlc_align dv2_t t;
-
-	dv2_null(t);
-
-	RLC_TRY {
-		dv2_new(t);
-		fp2_sqrn_low(t, a);
-		fp2_rdcn_low(c, t);
-	} RLC_CATCH_ANY {
-		RLC_THROW(ERR_CAUGHT);
-	} RLC_FINALLY {
-		dv2_free(t);
-	}
-    */
-    
+void fp2_sqrm_low(fp2_t c, fp2_t a) {    
     rlc_align dig_t t0[RLC_FP_DIGS];
 
     fp2_sqrm_subpart(t0, a);
