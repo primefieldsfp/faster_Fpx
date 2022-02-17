@@ -273,7 +273,7 @@ void fp2sqr_mont_old(const f2elm_t a, f2elm_t c)
 }
 
 
-void fp2sqr_mont(const f2elm_t a, f2elm_t c)             //////////// TEMPORARY
+void fp2sqr_mont(const f2elm_t a, f2elm_t c)            
 {    
     dfelm_t tt1; 
     
