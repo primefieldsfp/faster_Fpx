@@ -109,118 +109,6 @@ void fp6_mul_basic(fp6_t c, fp6_t a, fp6_t b) {
 
 #if PP_EXT == LAZYR || !defined(STRIP)
 
-#if 0
-/* MSVC needs this to be exported, so remove inline */
-void fp6_mul_unr(dv6_t c, fp6_t a, fp6_t b) {
-	dv2_t u0, u1, u2, u3;
-	fp2_t t0, t1;
-
-	dv2_null(u0);
-	dv2_null(u1);
-	dv2_null(u2);
-	dv2_null(u3);
-	fp2_null(t0);
-	fp2_null(t1);
-
-	RLC_TRY {
-		dv2_new(u0);
-		dv2_new(u1);
-		dv2_new(u2);
-		dv2_new(u3);
-		fp2_new(t0);
-		fp2_new(t1);
-
-		/* v0 = a_0b_0, v1 = a_1b_1, v2 = a_2b_2,
-		 * t0 = a_1 + a_2, t1 = b_1 + b_2,
-		 * u4 = u1 + u2, u5 = u0 + u1, u6 = u0 + u2 */
-#ifdef RLC_FP_ROOM
-		fp2_mulc_low(u0, a[0], b[0]);
-		fp2_mulc_low(u1, a[1], b[1]);
-		fp2_mulc_low(u2, a[2], b[2]);
-		fp2_addn_low(t0, a[1], a[2]);
-		fp2_addn_low(t1, b[1], b[2]);
-		fp2_addd_low(c[0], u1, u2);
-#else
-		fp2_muln_low(u0, a[0], b[0]);
-		fp2_muln_low(u1, a[1], b[1]);
-		fp2_muln_low(u2, a[2], b[2]);
-		fp2_addm_low(t0, a[1], a[2]);
-		fp2_addm_low(t1, b[1], b[2]);
-		fp2_addc_low(c[0], u1, u2);
-#endif
-		/* t2 (c_0) = v0 + E((a_1 + a_2)(b_1 + b_2) - v1 - v2) */
-		fp2_muln_low(u3, t0, t1);
-		fp2_subc_low(u3, u3, c[0]);
-#ifdef RLC_FP_ROOM
-		fp2_norh_low(c[0], u3);
-#else
-		fp2_nord_low(c[0], u3);
-#endif
-		fp2_addc_low(c[0], c[0], u0);
-
-		/* c_1 = (a_0 + a_1)(b_0 + b_1) - v0 - v1 + Ev2 */
-#ifdef RLC_FP_ROOM
-		fp2_addn_low(t0, a[0], a[1]);
-		fp2_addn_low(t1, b[0], b[1]);
-		fp2_addd_low(c[1], u0, u1);
-#else
-		fp2_addm_low(t0, a[0], a[1]);
-		fp2_addm_low(t1, b[0], b[1]);
-		fp2_addc_low(c[1], u0, u1);
-#endif
-		fp2_muln_low(u3, t0, t1);
-		fp2_subc_low(u3, u3, c[1]);
-#ifdef RLC_FP_ROOM
-		fp2_norh_low(c[2], u2);
-#else
-		fp2_nord_low(c[2], u2);
-#endif
-		fp2_addc_low(c[1], u3, c[2]);
-
-		/* c_2 = (a_0 + a_2)(b_0 + b_2) - v0 + v1 - v2 */
-#ifdef RLC_FP_ROOM
-		fp2_addn_low(t0, a[0], a[2]);
-		fp2_addn_low(t1, b[0], b[2]);
-		fp2_addd_low(c[2], u0, u2);
-#else
-		fp2_addm_low(t0, a[0], a[2]);
-		fp2_addm_low(t1, b[0], b[2]);
-		fp2_addc_low(c[2], u0, u2);
-#endif
-		fp2_muln_low(u3, t0, t1);
-		fp2_subc_low(u3, u3, c[2]);
-		fp2_addc_low(c[2], u3, u1);
-	} RLC_CATCH_ANY {
-		RLC_THROW(ERR_CAUGHT);
-	} RLC_FINALLY {
-		dv2_free(u0);
-		dv2_free(u1);
-		dv2_free(u2);
-		dv2_free(u3);
-		fp2_free(t0);
-		fp2_free(t1);
-	}
-}
-
-void fp6_mul_lazyr(fp6_t c, fp6_t a, fp6_t b) {
-	dv6_t t;
-
-	dv6_null(t);
-
-	RLC_TRY {
-		dv6_new(t);
-		fp6_mul_unr(t, a, b);
-		fp2_rdcn_low(c[0], t[0]);
-		fp2_rdcn_low(c[1], t[1]);
-		fp2_rdcn_low(c[2], t[2]);
-	} RLC_CATCH_ANY {
-		RLC_THROW(ERR_CAUGHT);
-	} RLC_FINALLY {
-		dv6_free(t);
-	}
-}
-#endif
-
 /////////////////////////////////////////////////////// Implementation with full new arithmetic for fp6_mul
 void precomp381(dig_t* c, const dig_t* a) 
 { // Precomputes (b10+b11), (b10-b11), (b20+b21), (b20-b21) 
@@ -228,78 +116,6 @@ void precomp381(dig_t* c, const dig_t* a)
     precomp381_asm(&c[2*6], &a[4*6]);
 }
 
-/*
-////////////////////////////////////////////////////// Unreduced version of full Fp6mul
-////////////////////////////////////////////////////// NOT AS FAST AS BASIC VERSION WIHT NO LAZYR
-void fp6_mul_unr(dv6_t c, fp6_t a, fp6_t b) {
-    fp_t t[16];
-
-	fp_null(t[0]);
-	fp_null(t[1]);
-	fp_null(t[2]);
-	fp_null(t[3]);
-	fp_null(t[4]);
-	fp_null(t[5]);
-	fp_null(t[6]);
-	fp_null(t[7]);
-	fp_null(t[8]);
-	fp_null(t[9]);
-	fp_null(t[10]);
-	fp_null(t[11]);
-	fp_null(t[12]);
-	fp_null(t[13]);
-	fp_null(t[14]);
-	fp_null(t[15]);
-
-	RLC_TRY {
-		fp_new(t[0]);
-		fp_new(t[1]);
-		fp_new(t[2]);
-		fp_new(t[3]);
-		fp_new(t[4]);
-		fp_new(t[5]);
-		fp_new(t[6]);
-		fp_new(t[7]);
-		fp_new(t[8]);
-		fp_new(t[9]);
-		fp_new(t[10]);
-		fp_new(t[11]);
-		fp_new(t[12]);
-		fp_new(t[13]);
-		fp_new(t[14]);
-		fp_new(t[15]);
-             
-        precomp381((dig_t*)t[12], (dig_t*)b);  // Stores (b10+b11), (b10-b11), (b20+b21), (b20-b21)     
-        fp6mulnr381c0_asm(t[0], a, b);
-        fp6mulnr381c1_asm(t[0], a, b);
-        fp6mulnr381c2_asm(t[0], a, b);
-        fp6mulnr381c3_asm(t[0], a, b);
-        fp6mulnr381c4_asm(t[0], a, b);
-        fp6mulnr381c5_asm(t[0], a, b);
-        dv_copy((dig_t*)c, (dig_t*)t[0], 6*2*RLC_FP_DIGS);
-
-	} RLC_CATCH_ANY {
-		RLC_THROW(ERR_CAUGHT);
-	} RLC_FINALLY {
-		fp_free(t[0]);
-		fp_free(t[1]);
-		fp_free(t[2]);
-		fp_free(t[3]);
-		fp_free(t[4]);
-		fp_free(t[5]);
-		fp_free(t[6]);
-		fp_free(t[7]);
-		fp_free(t[8]);
-		fp_free(t[9]);
-		fp_free(t[10]);
-		fp_free(t[11]);
-		fp_free(t[12]);
-		fp_free(t[13]);
-		fp_free(t[14]);
-		fp_free(t[15]);
-	}
-}
-*/
 
 void fp6_mul_lazyr(fp6_t c, fp6_t a, fp6_t b) {
     fp_t t[10];
@@ -326,10 +142,6 @@ void fp6_mul_lazyr(fp6_t c, fp6_t a, fp6_t b) {
 		fp_new(t[7]);
 		fp_new(t[8]);
 		fp_new(t[9]);
-		//fp6_mul_unr(t, a, b);
-		//fp2_rdcn_low(c[0], t[0]);
-		//fp2_rdcn_low(c[1], t[1]);
-		//fp2_rdcn_low(c[2], t[2]);
              
         precomp381((dig_t*)t[6], (dig_t*)b);  // Stores (b10+b11), (b10-b11), (b20+b21), (b20-b21)     
         fp6mul381c0_asm(t[0], a, b);
