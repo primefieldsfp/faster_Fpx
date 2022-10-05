@@ -42,3 +42,8 @@ $ ./sike434/test_SIKE
 $ ./sike503/test_SIKE
 $ ./sike610/test_SIKE
 ```
+
+## References
+
+[1] Wouter Castryck and Thomas Decru. An efficient key recovery attack on SIDH.
+Cryptology ePrint Archive, Report 2022/975, 2022.
