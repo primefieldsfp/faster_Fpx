@@ -493,18 +493,6 @@ bool fp2_run()
     printf("  GF(p^2) subtraction runs in ..................................... %7lld ", cycles/BENCH_LOOPS); print_unit;
     printf("\n");
 
-    // GF(p^2) multiplication               ///////////////// TEMPORARY
-    cycles = 0;
-    for (n=0; n<BENCH_LOOPS; n++)
-    {
-        cycles1 = cpucycles(); 
-        fp2mul610_mont_old(a, b, c);
-        cycles2 = cpucycles();
-        cycles = cycles+(cycles2-cycles1);
-    }
-    printf("  GF(p^2) multiplication (OLD) runs in ............................ %7lld ", cycles/BENCH_LOOPS); print_unit;
-    printf("\n");
-
     // GF(p^2) multiplication           
     cycles = 0;
     for (n=0; n<BENCH_LOOPS; n++)
@@ -515,18 +503,6 @@ bool fp2_run()
         cycles = cycles+(cycles2-cycles1);
     }
     printf("  GF(p^2) multiplication runs in .................................. %7lld ", cycles/BENCH_LOOPS); print_unit;
-    printf("\n");
-
-    // GF(p^2) squaring            ///////////////// TEMPORARY
-    cycles = 0;
-    for (n=0; n<BENCH_LOOPS; n++)
-    {
-        cycles1 = cpucycles(); 
-        fp2sqr610_mont_old(a, b);
-        cycles2 = cpucycles();
-        cycles = cycles+(cycles2-cycles1);
-    }
-    printf("  GF(p^2) squaring (OLD) runs in .................................. %7lld ", cycles/BENCH_LOOPS); print_unit;
     printf("\n");
 
     // GF(p^2) squaring            
