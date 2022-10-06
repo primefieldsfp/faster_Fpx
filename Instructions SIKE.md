@@ -37,10 +37,10 @@ $ make tests_pXXX
 Once compilation is complete, testing and benchmarking can be run by executing 
 
 ```sh
+$ ./arith_tests-p377
 $ ./arith_tests-p434
 $ ./arith_tests-p503
 $ ./arith_tests-p610
-$ ./arith_tests-p751
 ```
 
 for the field operations, and
