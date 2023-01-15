@@ -46,7 +46,7 @@ Compilation for BLS24-509 is done by executing:
 $ cd RELIC_pairings
 $ mkdir relic-target
 $ cd relic-target
-$ ../relic-bls24-509/preset/x64-pbc-bls12-381.sh ../relic-bls24-509/        [Make sure the .sh file has permission as executable]
+$ ../relic-bls24-509/preset/x64-pbc-bls24-509.sh ../relic-bls24-509/        [Make sure the .sh file has permission as executable]
 $ make
 ```
 
