@@ -1,8 +1,8 @@
-# Integration to the BLS12-381 and BLS24-509 pairing software in the RELIC library, version 0.6.0
+# Integration to the BLS12-381 and BLS24-509 pairing software in the RELIC library, versions 0.5.0 and 0.6.0
 # Paper "Efficient Algorithms for Large Prime Characteristic Fields and Their Application to Bilinear Pairings"
 
 This library includes two efficient implementations of the extension field arithmetic that underlies the optimal ate pairings over BLS12-381 and BLS24-509. 
-The original RELIC library version 0.6.0 is available here: https://github.com/relic-toolkit/relic
+The original RELIC library is available here: https://github.com/relic-toolkit/relic
 
 
 ## Contents
