@@ -80,27 +80,27 @@
 
 	// Final correction
     xor    rsi, rsi
-	mov    \T0, [rip+p0]
-	mov    \T1, [rip+p1]
-	mov    \Z7, [rip+p2]
-	mov    rdx, [rip+p3]
-	sub    \Z8, \T0
-	sbb    \Z0, \T1
-	sbb    \Z1, \Z7
-	sbb    \Z2, rdx
-	sbb    \Z3, [rip+p4]
-	sbb    \Z4, [rip+p5]
-	sbb    \Z5, [rip+p6]
-	sbb    \Z6, [rip+p7]
-	sbb    rsi, 0
-	and    \T0, rsi
-	and    \T1, rsi
-	and    \Z7, rsi
-	and    rdx, rsi
-	add    \Z8, \T0
-	adc    \Z0, \T1
-	adc    \Z1, \Z7
-	adc    \Z2, rdx
+    mov    \T0, [rip+p0]
+    mov    \T1, [rip+p1]
+    mov    \Z7, [rip+p2]
+    mov    rdx, [rip+p3]
+    sub    \Z8, \T0
+    sbb    \Z0, \T1
+    sbb    \Z1, \Z7
+    sbb    \Z2, rdx
+    sbb    \Z3, [rip+p4]
+    sbb    \Z4, [rip+p5]
+    sbb    \Z5, [rip+p6]
+    sbb    \Z6, [rip+p7]
+    sbb    rsi, 0
+    and    \T0, rsi
+    and    \T1, rsi
+    and    \Z7, rsi
+    and    rdx, rsi
+    add    \Z8, \T0
+    adc    \Z0, \T1
+    adc    \Z1, \Z7
+    adc    \Z2, rdx
     mov    [reg_p2], \Z8     
     mov    [reg_p2+8], \Z0 
     mov    [reg_p2+16], \Z1 
@@ -115,8 +115,8 @@
     and    \Z2, rsi
     and    rdx, rsi
     bt     rcx, 0
-	adc    \Z3, \Z0
-	adc    \Z4, \Z1
+    adc    \Z3, \Z0
+    adc    \Z4, \Z1
     adc    \Z5, \Z2
     adc    \Z6, rdx
 
@@ -139,32 +139,32 @@ fp2_sqrm_addpart:
     push   r14  
     push   r15  
     push   rbx
-	sub    rsp, 64
+    sub    rsp, 64
 	
     // rsp[0..7] <- z = 2 x a0	
-	mov    r8, [reg_p1]
-	mov    r9, [reg_p1+8]
-	mov    r10, [reg_p1+16]
-	mov    r11, [reg_p1+24]
-	mov    r12, [reg_p1+32]
-	mov    r13, [reg_p1+40] 
-	mov    r14, [reg_p1+48]
-	mov    r15, [reg_p1+56] 
-	add    r8, r8
-	adc    r9, r9
-	adc    r10, r10
-	adc    r11, r11
-	adc    r12, r12
-	adc    r13, r13
+    mov    r8, [reg_p1]
+    mov    r9, [reg_p1+8]
+    mov    r10, [reg_p1+16]
+    mov    r11, [reg_p1+24]
+    mov    r12, [reg_p1+32]
+    mov    r13, [reg_p1+40] 
+    mov    r14, [reg_p1+48]
+    mov    r15, [reg_p1+56] 
+    add    r8, r8
+    adc    r9, r9
+    adc    r10, r10
+    adc    r11, r11
+    adc    r12, r12
+    adc    r13, r13
     adc    r14, r14
     adc    r15, r15
-	mov    [rsp+8], r9
-	mov    [rsp+16], r10
-	mov    [rsp+24], r11
-	mov    [rsp+32], r12
-	mov    [rsp+40], r13
-	mov    [rsp+48], r14
-	mov    [rsp+56], r15
+    mov    [rsp+8], r9
+    mov    [rsp+16], r10
+    mov    [rsp+24], r11
+    mov    [rsp+32], r12
+    mov    [rsp+40], r13
+    mov    [rsp+48], r14
+    mov    [rsp+56], r15
     
     // [r8:r15, rax] <- z = 2 x a00 x a1    
     mov    rdx, r8
@@ -180,15 +180,15 @@ fp2_sqrm_addpart:
     adcx   r12, r14      
     mulx   r14, r15, [reg_p1+104]
     adcx   r13, r15      
-    mulx   r15, rbp, [reg_p1+112] 
-    adcx   r14, rbp       
+    mulx   r15, rcx, [reg_p1+112] 
+    adcx   r14, rcx       
     mulx   rax, rbx, [reg_p1+120]
     adcx   r15, rbx     
     adc    rax, 0      
 
-	FPMUL512x512 [reg_p1+64], [rsp], r8, r9, r10, r11, r12, r13, r14, r15, rax, rbx, rcx
+    FPMUL512x512 [reg_p1+64], [rsp], r8, r9, r10, r11, r12, r13, r14, r15, rax, rbx, rcx
          
-	add    rsp, 64     
+    add    rsp, 64     
     pop    rbx
     pop    r15
     pop    r14
@@ -210,67 +210,67 @@ fp2_sqrm_subpart:
     push   r14  
     push   r15  
     push   rbx
-	sub    rsp, 128
+    sub    rsp, 128
     
     // rsp[0..7] <- z = a0 + a1
-	mov    r8, [reg_p1]
-	add    r8, [reg_p1+64]
-	mov    r9, [reg_p1+8]
-	adc    r9, [reg_p1+72]
-	mov    r10, [reg_p1+16]
-	adc    r10, [reg_p1+80]
-	mov    r11, [reg_p1+24]
-	adc    r11, [reg_p1+88]
-	mov    r12, [reg_p1+32]
-	adc    r12, [reg_p1+96]
-	mov    r13, [reg_p1+40]
-	adc    r13, [reg_p1+104]
-	mov    r14, [reg_p1+48]
-	adc    r14, [reg_p1+112]
-	mov    r15, [reg_p1+56]
-	adc    r15, [reg_p1+120]
-	mov    [rsp], r8                         
-	mov    [rsp+8], r9
-	mov    [rsp+16], r10
-	mov    [rsp+24], r11
-	mov    [rsp+32], r12
-	mov    [rsp+40], r13
-	mov    [rsp+48], r14
-	mov    [rsp+56], r15
+    mov    r8, [reg_p1]
+    add    r8, [reg_p1+64]
+    mov    r9, [reg_p1+8]
+    adc    r9, [reg_p1+72]
+    mov    r10, [reg_p1+16]
+    adc    r10, [reg_p1+80]
+    mov    r11, [reg_p1+24]
+    adc    r11, [reg_p1+88]
+    mov    r12, [reg_p1+32]
+    adc    r12, [reg_p1+96]
+    mov    r13, [reg_p1+40]
+    adc    r13, [reg_p1+104]
+    mov    r14, [reg_p1+48]
+    adc    r14, [reg_p1+112]
+    mov    r15, [reg_p1+56]
+    adc    r15, [reg_p1+120]
+    mov    [rsp], r8                         
+    mov    [rsp+8], r9
+    mov    [rsp+16], r10
+    mov    [rsp+24], r11
+    mov    [rsp+32], r12
+    mov    [rsp+40], r13
+    mov    [rsp+48], r14
+    mov    [rsp+56], r15
 	
-	// rsp[8..15] <- a0 - a1 + p509
-	mov    r8, [reg_p1]
-	sub    r8, [reg_p1+64]
-	mov    r10, [reg_p1+8]
-	sbb    r10, [reg_p1+72]
-	mov    r12, [reg_p1+16]
-	sbb    r12, [reg_p1+80]
-	mov    r13, [reg_p1+24]
-	sbb    r13, [reg_p1+88]
-	mov    r14, [reg_p1+32]
-	sbb    r14, [reg_p1+96]
-	mov    r15, [reg_p1+40]
-	sbb    r15, [reg_p1+104]
-	mov    rcx, [reg_p1+48]
-	sbb    rcx, [reg_p1+112]
-	mov    rax, [reg_p1+56]
-	sbb    rax, [reg_p1+120]
-	add    r8, [rip+p0]                   
-	adc    r10, [rip+p1]
-	adc    r12, [rip+p2]
-	adc    r13, [rip+p3]
-	adc    r14, [rip+p4]
-	adc    r15, [rip+p5]
-	adc    rcx, [rip+p6]
-	adc    rax, [rip+p7]
-	mov    [rsp+64], r8                 
-	mov    [rsp+72], r10
-	mov    [rsp+80], r12
-	mov    [rsp+88], r13
-	mov    [rsp+96], r14
-	mov    [rsp+104], r15
-	mov    [rsp+112], rcx
-	mov    [rsp+120], rax
+    // rsp[8..15] <- a0 - a1 + p509
+    mov    r8, [reg_p1]
+    sub    r8, [reg_p1+64]
+    mov    r10, [reg_p1+8]
+    sbb    r10, [reg_p1+72]
+    mov    r12, [reg_p1+16]
+    sbb    r12, [reg_p1+80]
+    mov    r13, [reg_p1+24]
+    sbb    r13, [reg_p1+88]
+    mov    r14, [reg_p1+32]
+    sbb    r14, [reg_p1+96]
+    mov    r15, [reg_p1+40]
+    sbb    r15, [reg_p1+104]
+    mov    rcx, [reg_p1+48]
+    sbb    rcx, [reg_p1+112]
+    mov    rax, [reg_p1+56]
+    sbb    rax, [reg_p1+120]
+    add    r8, [rip+p0]                   
+    adc    r10, [rip+p1]
+    adc    r12, [rip+p2]
+    adc    r13, [rip+p3]
+    adc    r14, [rip+p4]
+    adc    r15, [rip+p5]
+    adc    rcx, [rip+p6]
+    adc    rax, [rip+p7]
+    mov    [rsp+64], r8                 
+    mov    [rsp+72], r10
+    mov    [rsp+80], r12
+    mov    [rsp+88], r13
+    mov    [rsp+96], r14
+    mov    [rsp+104], r15
+    mov    [rsp+112], rcx
+    mov    [rsp+120], rax
     
     // [r8:r15, rax] <- z = (a0 + a1)_00 x (a0 - a1)_0 + z
     mov    rdx, [rsp]
@@ -292,9 +292,9 @@ fp2_sqrm_subpart:
     adcx   r15, rcx          
     adc    rax, 0       
 
-	FPMUL512x512 [rsp+64], [rsp], r8, r9, r10, r11, r12, r13, r14, r15, rax, rbx, rcx
+    FPMUL512x512 [rsp+64], [rsp], r8, r9, r10, r11, r12, r13, r14, r15, rax, rbx, rcx
          
-	add    rsp, 128     
+    add    rsp, 128     
     pop    rbx
     pop    r15
     pop    r14
