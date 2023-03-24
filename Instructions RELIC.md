@@ -1,13 +1,12 @@
-# Integration to the BLS12-381 and BLS24-509 pairing software in the RELIC library, versions 0.5.0 and 0.6.0
-# Paper "Efficient Algorithms for Large Prime Characteristic Fields and Their Application to Bilinear Pairings"
+## Implementation of the BLS12-381 and BLS24-509 pairing-friendly curves using the RELIC library (v0.5.0 and v0.6.0)
 
-This library includes two efficient implementations of the extension field arithmetic that underlies the optimal ate pairings over BLS12-381 and BLS24-509. 
-The original RELIC library is available here: https://github.com/relic-toolkit/relic
+This library includes two efficient implementations of the extension field arithmetic that underlies the optimal ate pairings over BLS12-381 and BLS24-509.
+These implementations are integrated to the [RELIC library](https://github.com/relic-toolkit/relic).
 
 
 ## Contents
 
-Our new implementations and modifications are available here (for BLS12-381):
+The new implementations and modifications are available here (for BLS12-381):
 
 * [`asm folder`](RELIC_pairings/relic-bls12-381/src/low/x64-asm-382/): contains the assembly implementations for extension field multiplication
 (file relic_fpx_mul_low_asm.s) and squaring (file relic_fpx_sqr_low_asm.s).
@@ -63,8 +62,3 @@ Similarly, benchmarking can be run by executing
 $ ./bin/bench_fpx
 $ ./bin/bench_pp
 ```
-
-For BLS12-381, relevant results to observe correspond to fp2_mul, fp2_sqr, fp6_mul, fp12_mul, pp_map_oatep_k12 (full optimal ate pairing) and
-pp_map_sim_oatep_k12 (2 pairings computed simultaneously).
-
-For BLS24-509, relevant results to observe correspond to fp2_mul, fp2_sqr, fp4_mul, fp8_mul, fp24_mul and pp_map_k24 (full optimal ate pairing).
