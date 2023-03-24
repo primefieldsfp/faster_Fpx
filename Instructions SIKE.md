@@ -1,15 +1,14 @@
 # Integration to the SIKE software in the SIDH library, version 3.4
-# Paper "Efficient Algorithms for Large Prime Characteristic Fields and Their Application to Bilinear Pairings"
 
-This library includes new efficient implementations of the quadratic extension field arithmetic that underlies the SIKE protocol. 
-The original SIDH library version 3.4 is available here: https://github.com/microsoft/PQCrypto-SIDH
+This library includes efficient implementations of the quadratic extension field arithmetic that underlies the SIKE protocol. 
+The implementations are integrated to the [SIDH library](https://github.com/microsoft/PQCrypto-SIDH)
 
 WARNING: the SIDH and SIKE protocols have been recently shown to be insecure [1].
 The software provided here is mainly intended for evaluating the speed performance and memory usage of the proposed method for different prime bitlengths.
 
 ## Contents
 
-Our new implementations and modifications are available here:
+The new implementations and modifications are available here:
 
 * [`asm p377 folder`](SIKE_primes/src/P377/AMD64/): contains the assembly implementations of the quadratic extension field multiplication and squaring for p377
 (file fp_x64_asm.S).
