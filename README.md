@@ -1,5 +1,4 @@
-# Implementation of faster algorithms for extension fields of large prime characteristic
-# Applications: bilinear pairings and supensingular isogeny-based protocols
+# Efficient algorithms for extension fields of large prime characteristic with applications to bilinear pairings and supensingular isogeny-based protocols
 
 This library includes efficient implementations of the extension field arithmetic that underlies many cryptographic protocols, including pairing-based and supersingular isogeny-based schemes. 
 
