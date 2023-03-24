@@ -62,3 +62,8 @@ Similarly, benchmarking can be run by executing
 $ ./bin/bench_fpx
 $ ./bin/bench_pp
 ```
+
+## License
+
+All the new code is released under MIT license.
+The RELIC library is under Apache-2.0 or LGPL-2.1 license.
